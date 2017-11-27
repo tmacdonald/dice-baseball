@@ -1,7 +1,8 @@
 const actions = {
     SINGLE: 'SINGLE',
     DOUBLE: 'DOUBLE',
-    TRIPLE: 'TRIPLE'
+    TRIPLE: 'TRIPLE',
+    HOME_RUN: 'HOME_RUN'
 }
 
 const defaultState = {
@@ -52,6 +53,18 @@ function triple(state, action) {
     return newState
 }
 
+function homerun(state, action) {
+    const newState = Object.assign({}, state)
+
+    newState.hits = state.hits + 1
+    newState.runs = state.runs + 1 + (state.third ? 1 : 0) + (state.second ? 1 : 0) + (state.first ? 1 : 0)
+    newState.third = false
+    newState.second = false
+    newState.first = false
+
+    return newState
+}
+
 function machine (state, action) {
     if (!action) {
         action = state
@@ -65,6 +78,8 @@ function machine (state, action) {
             return double(state, action)
         case actions.TRIPLE:
             return triple(state, action)
+        case actions.HOMERUN:
+            return homerun(state, action)
         default:
             return defaultState
     }
