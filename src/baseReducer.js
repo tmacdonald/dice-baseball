@@ -1,27 +1,14 @@
-const actions = {
-    SINGLE: 'SINGLE',
-    DOUBLE: 'DOUBLE',
-    TRIPLE: 'TRIPLE',
-    HOME_RUN: 'HOME_RUN'
-}
+import actions from './actions'
 
 const defaultState = {
     first: false,
     second: false,
-    third: false,
-    balls: 0,
-    strikes: 0,
-    outs: 0,
-    hits: 0,
-    runs: 0,
-    errors: 0
+    third: false
 }
 
-function single(state, action) {
+function advanceAllRunners(state, action) {
     const newState = Object.assign({}, state)
 
-    newState.hits = state.hits + 1
-    newState.runs = state.runs + (state.third ? 1 : 0)
     newState.third = state.second
     newState.second = state.first
     newState.first = true
@@ -32,8 +19,6 @@ function single(state, action) {
 function double(state, action) {
     const newState = Object.assign({}, state)
 
-    newState.hits += 1
-    newState.runs = state.runs + (state.third ? 1 : 0) + (state.second ? 1 : 0)
     newState.third = state.first
     newState.second = true
     newState.first = false
@@ -44,8 +29,6 @@ function double(state, action) {
 function triple(state, action) {
     const newState = Object.assign({}, state)
 
-    newState.hits = state.hits + 1
-    newState.runs = state.runs + (state.third ? 1 : 0) + (state.second ? 1 : 0) + (state.first ? 1 : 0)
     newState.third = true
     newState.second = false
     newState.first = false
@@ -56,13 +39,15 @@ function triple(state, action) {
 function homerun(state, action) {
     const newState = Object.assign({}, state)
 
-    newState.hits = state.hits + 1
-    newState.runs = state.runs + 1 + (state.third ? 1 : 0) + (state.second ? 1 : 0) + (state.first ? 1 : 0)
     newState.third = false
     newState.second = false
     newState.first = false
 
     return newState
+}
+
+function advanceAvailableBases(state, action) {
+
 }
 
 function machine (state, action) {
@@ -73,13 +58,17 @@ function machine (state, action) {
 
     switch (action.type) {
         case actions.SINGLE: 
-            return single(state, action)
+        case actions.ADVANCE_ALL_RUNNERS:
+            return advanceAllRunners(state, action)
         case actions.DOUBLE:
             return double(state, action)
         case actions.TRIPLE:
             return triple(state, action)
         case actions.HOMERUN:
             return homerun(state, action)
+        case actions.WALK:
+        case actions.ADVANCE_AVAILABLE_BASES:
+            return advanceAvailableBases(state, action)
         default:
             return defaultState
     }
