@@ -47,7 +47,13 @@ function homerun(state, action) {
 }
 
 function advanceAvailableBases(state, action) {
+    const newState = Object.assign({}, state)
 
+    newState.third = (state.first && state.second) || state.third
+    newState.second = state.first || state.second
+    newState.first = true
+
+    return newState
 }
 
 function reducer (state, action) {

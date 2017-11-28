@@ -75,3 +75,75 @@ test('home run clears bases', () => {
     expect(newState.second).toBe(false)
     expect(newState.first).toBe(false)
 })
+
+test('walk with no runners on puts a runner at first', () => {
+    const state = Object.assign({}, defaultState)
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(false)
+    expect(newState.third).toBe(false)
+})
+
+test('walk with a runner on first puts runners on first and second', () => {
+    const state = Object.assign({}, defaultState, { first: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(false)
+})
+
+test('walk with a runner on second puts runners on first and second', () => {
+    const state = Object.assign({}, defaultState, { second: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(false)
+})
+
+test('walk with a runner on third puts runners on first and third', () => {
+    const state = Object.assign({}, defaultState, { third: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(false)
+    expect(newState.third).toBe(true)
+})
+
+test('walk with runners on first and second loads the bases', () => {
+    const state = Object.assign({}, defaultState, { first: true, second: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(true)
+})
+
+test ('walk with runners on first and third loads the bases', () => {
+    const state = Object.assign({}, defaultState, { first: true, third: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(true)
+})
+
+test ('walk with runners on second and third loads the bases', () => {
+    const state = Object.assign({}, defaultState, { second: true, third: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(true)
+})
+
+test('walk with the bases loaded continues to have the bases loaded', () => {
+    const state = Object.assign({}, defaultState, { first: true, second: true, third: true })
+    const newState = baseReducer(state, { type: actions.WALK })
+
+    expect(newState.first).toBe(true)
+    expect(newState.second).toBe(true)
+    expect(newState.third).toBe(true)
+})
