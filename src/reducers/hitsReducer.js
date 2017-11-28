@@ -1,23 +1,16 @@
 import actions from './actions'
 
-const defaultState = {
-    hits: 0
-}
+const defaultState = 0
 
-function reducer (state, action) {
-    if (!action) {
-        action = state
-        state = defaultState
-    }
-
+function reducer (hits, action) {
     switch (action.type) {
         case actions.SINGLE:
         case actions.DOUBLE:
         case actions.TRIPLE:
         case actions.HOMERUN: 
-            return { hits: state.hits + 1 }
+            return hits + 1
         default:
-            return state
+            return hits
     }
 }
 
