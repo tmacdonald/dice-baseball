@@ -1,70 +1,51 @@
 import actions from './actions'
 
-const defaultState = {
-    runs: 0
-}
+const defaultState = 0
 
-function advanceAllRunners(state, basesState, action) {
-    const newState = Object.assign({}, state)
-
-    newState.runs = state.runs + 
+function advanceAllRunners(runs, basesState, action) {
+    return runs + 
         (basesState.third ? 1 : 0)
-
-    return newState
 }
 
-function double(state, basesState, action) {
-    const newState = Object.assign({}, state)
-
-    newState.runs = state.runs + 
+function double(runs, basesState, action) {
+    return runs + 
         (basesState.third ? 1 : 0) + 
         (basesState.second ? 1 : 0)
-
-    return newState
 }
 
-function triple(state, basesState, action) {
-    const newState = Object.assign({}, state)
-
-    newState.runs = state.runs + 
+function triple(runs, basesState, action) {
+    return runs + 
         (basesState.third ? 1 : 0) + 
         (basesState.second ? 1 : 0) + 
         (basesState.first ? 1 : 0)
-
-    return newState
 }
 
-function homerun(state, basesState, action) {
-    const newState = Object.assign({}, state)
-
-    newState.runs = state.runs + 
-        1 + 
+function homerun(runs, basesState, action) {
+    return runs + 1 + 
         (basesState.third ? 1 : 0) + 
         (basesState.second ? 1 : 0) + 
         (basesState.first ? 1 : 0)
-
-    return newState
 }
 
 function advanceAvailableBases(state, action) {
 
 }
 
-function reducer (state, basesState, action) {
+function reducer (runs, basesState, action) {
 
     switch (action.type) {
         case actions.SINGLE: 
-            return advanceAllRunners(state, basesState, action)
+            return advanceAllRunners(runs, basesState, action)
         case actions.DOUBLE:
-            return double(state, basesState, action)
+            return double(runs, basesState, action)
         case actions.TRIPLE:
-            return triple(state, basesState, action)
+            return triple(runs, basesState, action)
         case actions.HOMERUN:
-            return homerun(state, basesState, action)
+            return homerun(runs, basesState, action)
         case actions.WALK:
-            return advanceAvailableBases(state, basesState, action)
+            return advanceAvailableBases(runs, basesState, action)
         default:
-            return defaultState
+            return runs
     }
 }
 
