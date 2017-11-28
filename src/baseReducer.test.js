@@ -3,7 +3,7 @@ import baseReducer, { defaultState } from './baseReducer'
 
 test('single with no runners on puts one runner at first', () => {
     const state = Object.assign({}, defaultState, { first: true })
-    const newState = baseReducer({ type: actions.SINGLE })
+    const newState = baseReducer(state, { type: actions.SINGLE })
 
     expect(newState.first).toBe(true)
 })
@@ -33,7 +33,8 @@ test('single with runner on third scores run and puts runner on first', () => {
 })
 
 test('double with no runners on puts one runner at second', () => {
-    const newState = baseReducer({ type: actions.DOUBLE })
+    const state = Object.assign({}, defaultState)
+    const newState = baseReducer(state, { type: actions.DOUBLE })
 
     expect(newState.first).toBe(false)
     expect(newState.second).toBe(true)
@@ -49,7 +50,8 @@ test('double with runner on first puts runners on second and third', () => {
 })
 
 test('triple with no runners on puts one runner at third', () => {
-    const newState = baseReducer({ type: actions.TRIPLE })
+    const state = Object.assign({}, defaultState)
+    const newState = baseReducer(state, { type: actions.TRIPLE })
 
     expect(newState.first).toBe(false)
     expect(newState.second).toBe(false)

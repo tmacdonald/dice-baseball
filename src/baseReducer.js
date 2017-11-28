@@ -51,10 +51,6 @@ function advanceAvailableBases(state, action) {
 }
 
 function reducer (state, action) {
-    if (!action) {
-        action = state
-        state = defaultState
-    }
 
     switch (action.type) {
         case actions.SINGLE: 

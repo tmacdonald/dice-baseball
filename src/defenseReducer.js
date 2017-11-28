@@ -42,6 +42,16 @@ function out(state, action) {
     return newState
 }
 
+/**
+ * Note that getting to four balls does not trigger a change in base runners. That has
+ * to be done by the baseReducer
+ * 
+ * Note that getting to three strikes does not trigger a strikeout. That has to be detected
+ * by the client which then send a STRIKE_OUT action to this reducer
+ * 
+ * @param {*} state 
+ * @param {*} action 
+ */
 function reducer (state, action) {
     switch (action.type) {
         case actions.STRIKE:
