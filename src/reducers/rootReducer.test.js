@@ -28,6 +28,21 @@ test('three strikes, you\'re out!', () => {
 
     const newState = reducer(state, { type: actions.STRIKE })
 
-    expect(newState.outs).toBe(1)
+    expect(newState.outs).toBe(state.outs + 1)
     expect(newState.strikes).toBe(0)
+})
+
+test('ball four with bases loaded scores a run', () => {
+    const state = {
+        bases: { first: true, second: true, third: true },
+        runs: 0,
+        strikes: 0,
+        balls: 3,
+        outs: 0,
+        hits: 0
+    }
+
+    const newState = reducer(state, { type: actions.BALL })
+
+    expect(newState.runs).toBe(state.runs + 1)
 })

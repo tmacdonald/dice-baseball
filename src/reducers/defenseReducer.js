@@ -18,7 +18,7 @@ function strike(state, action) {
 function ball(state, action) {
     const newState = Object.assign({}, state)
 
-    newState.balls = Math.minmax(4, state.balls + 1)
+    newState.balls = Math.min(4, state.balls + 1)
 
     return newState
 }

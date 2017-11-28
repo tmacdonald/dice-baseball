@@ -27,8 +27,11 @@ function homerun(runs, basesState, action) {
         (basesState.first ? 1 : 0)
 }
 
-function advanceAvailableBases(state, action) {
-
+function advanceAvailableBases(state, basesState, action) {
+    if (basesState.first && basesState.second && basesState.third) {
+        return state + 1
+    }
+    return state
 }
 
 function reducer (runs, basesState, action) {
