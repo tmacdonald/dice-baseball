@@ -46,3 +46,19 @@ test('ball four with bases loaded scores a run', () => {
 
     expect(newState.runs).toBe(state.runs + 1)
 })
+
+test('grand slam scores four and clears the bases', () => {
+    const state = {
+        bases: { first: true, second: true, third: true },
+        runs: 0,
+        strikes: 0,
+        balls: 0,
+        outs: 0,
+        hits: 0
+    }
+
+    const newState = reducer(state, { type: actions.HOMERUN })
+
+    expect(newState.runs).toBe(state.runs + 4)
+    expect(newState.bases).toEqual({ first: false, second: false, third: false })
+})
