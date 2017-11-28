@@ -50,7 +50,7 @@ function advanceAvailableBases(state, action) {
 
 }
 
-function machine (state, action) {
+function reducer (state, action) {
     if (!action) {
         action = state
         state = defaultState
@@ -75,7 +75,6 @@ function machine (state, action) {
 }
 
 export {
-    actions,
     defaultState
 }
-export default machine
+export default reducer
