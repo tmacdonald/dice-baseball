@@ -1,13 +1,14 @@
 import actions from './actions'
-import reducer from './rootReducer'
+import reducer from './atBatReducer'
 
 /**
  * state shape: {
  *  bases: {
- *      first: boolean,
- *      second: boolean,
- *      third: boolean
+ *      first: object,
+ *      second: object,
+ *      third: object
  *  },
+ *  hitter: object
  *  runs: number,
  *  strikes: 0,
  *  balls: 0,
@@ -19,6 +20,7 @@ import reducer from './rootReducer'
 test('three strikes, you\'re out!', () => {
     const state = {
         bases: { first: false, second: false, third: false },
+        hitter: 'A',
         runs: 0,
         strikes: 2,
         balls: 0,
@@ -34,7 +36,8 @@ test('three strikes, you\'re out!', () => {
 
 test('ball four with bases loaded scores a run', () => {
     const state = {
-        bases: { first: true, second: true, third: true },
+        bases: { first: 'C', second: 'B', third: 'A' },
+        hitter: 'D',
         runs: 0,
         strikes: 0,
         balls: 3,
@@ -49,7 +52,8 @@ test('ball four with bases loaded scores a run', () => {
 
 test('grand slam scores four and clears the bases', () => {
     const state = {
-        bases: { first: true, second: true, third: true },
+        bases: { first: 'C', second: 'B', third: 'A' },
+        hitter: 'D',
         runs: 0,
         strikes: 0,
         balls: 0,
@@ -60,5 +64,24 @@ test('grand slam scores four and clears the bases', () => {
     const newState = reducer(state, { type: actions.HOMERUN })
 
     expect(newState.runs).toBe(state.runs + 4)
-    expect(newState.bases).toEqual({ first: false, second: false, third: false })
+    expect(newState.bases).toEqual({ hitter: false, first: false, second: false, third: false })
+})
+
+test('all actions throws an error', () => {
+    const state = {}
+
+    for (let actionKey in actions) {
+        if (actions.BATTER_UP !== actionKey && actions.hasOwnProperty(actionKey)) {
+            expect(() => reducer(state, { type: actionKey })).toThrow()        
+        }
+    }
+})
+
+test('Batter up!', () => {
+    const state = {}
+    const hitter = 'hitter'
+
+    const newState = reducer(state, { type: actions.BATTER_UP, hitter })
+
+    expect(newState.hitter).toBe(hitter)
 })
