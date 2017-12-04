@@ -4,13 +4,22 @@ import runsReducer from './runsReducer'
 import baseReducer from './baseReducer'
 import hitsReducer from './hitsReducer'
 
+const defaultInning = {
+    bases: { first: false, second: false, third: false },
+    runs: 0,
+    strikes: 0,
+    balls: 0,
+    outs: 0,
+    hits: 0
+}
+
 function batterUp(state, action) {
-    return Object.assign({}, state, { hitter: action.hitter })
+    return Object.assign({}, state, { batter: action.batter })
 }
 
 function verifyBatter(state) {
-    if (!state.hitter) {
-        throw 'hitter is required'
+    if (!state.batter) {
+        throw 'batter is required'
     }
 }
 
@@ -18,7 +27,7 @@ function strike(state, action) {
     let newState = reducer(state, action)
 
     if (newState.strikes === 3) {
-        newState = reducer(state, { type: actions.STRIKE_OUT })
+        newState = reducer(state, { type: actions.OUT })
     }
     return newState
 }
@@ -35,7 +44,7 @@ function ball(state, action) {
 function reducer(state, action) {
     const defenseState = defenseReducer(state, action)
     const runState = runsReducer(state.runs, state.bases, action)
-    const newBases = baseReducer(state.bases, state.hitter, action)
+    const newBases = baseReducer(state.bases, state.batter, action)
     const hitState = hitsReducer(state.hits, action)
 
     const newState = Object.assign(
@@ -67,3 +76,6 @@ function rootReducer(state, action) {
 }
 
 export default rootReducer
+export {
+    defaultInning 
+}

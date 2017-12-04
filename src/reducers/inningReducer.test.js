@@ -1,5 +1,5 @@
 import actions from './actions'
-import reducer from './atBatReducer'
+import reducer from './inningReducer'
 
 /**
  * state shape: {
@@ -8,7 +8,7 @@ import reducer from './atBatReducer'
  *      second: object,
  *      third: object
  *  },
- *  hitter: object
+ *  batter: object
  *  runs: number,
  *  strikes: 0,
  *  balls: 0,
@@ -20,7 +20,7 @@ import reducer from './atBatReducer'
 test('three strikes, you\'re out!', () => {
     const state = {
         bases: { first: false, second: false, third: false },
-        hitter: 'A',
+        batter: 'A',
         runs: 0,
         strikes: 2,
         balls: 0,
@@ -37,7 +37,7 @@ test('three strikes, you\'re out!', () => {
 test('ball four with bases loaded scores a run', () => {
     const state = {
         bases: { first: 'C', second: 'B', third: 'A' },
-        hitter: 'D',
+        batter: 'D',
         runs: 0,
         strikes: 0,
         balls: 3,
@@ -53,7 +53,7 @@ test('ball four with bases loaded scores a run', () => {
 test('grand slam scores four and clears the bases', () => {
     const state = {
         bases: { first: 'C', second: 'B', third: 'A' },
-        hitter: 'D',
+        batter: 'D',
         runs: 0,
         strikes: 0,
         balls: 0,
@@ -64,7 +64,7 @@ test('grand slam scores four and clears the bases', () => {
     const newState = reducer(state, { type: actions.HOMERUN })
 
     expect(newState.runs).toBe(state.runs + 4)
-    expect(newState.bases).toEqual({ hitter: false, first: false, second: false, third: false })
+    expect(newState.bases).toEqual({ batter: false, first: false, second: false, third: false })
 })
 
 test('all actions throws an error', () => {
@@ -79,9 +79,9 @@ test('all actions throws an error', () => {
 
 test('Batter up!', () => {
     const state = {}
-    const hitter = 'hitter'
+    const batter = 'batter'
 
-    const newState = reducer(state, { type: actions.BATTER_UP, hitter })
+    const newState = reducer(state, { type: actions.BATTER_UP, batter })
 
-    expect(newState.hitter).toBe(hitter)
+    expect(newState.batter).toBe(batter)
 })

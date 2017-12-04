@@ -6,76 +6,76 @@ const defaultState = {
     third: false
 }
 
-function advanceAllRunners(state, hitter, action) {
+function advanceAllRunners(state, batter, action) {
     const newState = Object.assign({}, state)
 
     newState.third = state.second
     newState.second = state.first
-    newState.first = hitter
-    newState.hitter = false
+    newState.first = batter
+    newState.batter = false
 
     return newState
 }
 
-function double(state, hitter, action) {
+function double(state, batter, action) {
     const newState = Object.assign({}, state)
 
     newState.third = state.first
-    newState.second = hitter
+    newState.second = batter
     newState.first = false
-    newState.hitter = false
+    newState.batter = false
 
     return newState
 }
 
-function triple(state, hitter, action) {
+function triple(state, batter, action) {
     const newState = Object.assign({}, state)
 
-    newState.third = hitter
+    newState.third = batter
     newState.second = false
     newState.first = false
-    newState.hitter = false
+    newState.batter = false
 
     return newState
 }
 
-function homerun(state, hitter, action) {
+function homerun(state, batter, action) {
     const newState = Object.assign({}, state)
 
     newState.third = false
     newState.second = false
     newState.first = false
-    newState.hitter = false
+    newState.batter = false
 
     return newState
 }
 
-function advanceAvailableBases(state, hitter, action) {
+function advanceAvailableBases(state, batter, action) {
     const newState = Object.assign({}, state)
 
     newState.third = (state.first && state.second) || state.third
     newState.second = state.first || state.second
-    newState.first = hitter
-    newState.hitter = false
+    newState.first = batter
+    newState.batter = false
 
     return newState
 }
 
-function reducer (state, hitter, action) {
+function reducer (state, batter, action) {
 
     switch (action.type) {
         case actions.SINGLE: 
         case actions.ADVANCE_ALL_RUNNERS:
-            return advanceAllRunners(state, hitter, action)
+            return advanceAllRunners(state, batter, action)
             case actions.DOUBLE:
-            return double(state, hitter, action)
+            return double(state, batter, action)
         case actions.TRIPLE:
-            return triple(state, hitter, action)
+            return triple(state, batter, action)
         case actions.HOMERUN:
-            return homerun(state, hitter, action)
+            return homerun(state, batter, action)
         case actions.WALK:
         case actions.ADVANCE_AVAILABLE_BASES:
-            return advanceAvailableBases(state, hitter, action)
+            return advanceAvailableBases(state, batter, action)
         default:
             return defaultState
     }

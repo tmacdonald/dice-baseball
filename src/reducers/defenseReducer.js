@@ -60,9 +60,7 @@ function reducer (state, action) {
             return ball(state, action)
         case actions.WALK:
             return walk(state, action)
-        case actions.STRIKE_OUT:
-        case actions.GROUND_OUT: 
-        case actions.FLY_OUT:
+        case actions.OUT:
             return out(state, action)
         default:
             return state
