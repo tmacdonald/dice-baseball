@@ -12,7 +12,6 @@ function advanceAllRunners(state, batter, action) {
     newState.third = state.second
     newState.second = state.first
     newState.first = batter
-    newState.batter = false
 
     return newState
 }
@@ -23,7 +22,6 @@ function double(state, batter, action) {
     newState.third = state.first
     newState.second = batter
     newState.first = false
-    newState.batter = false
 
     return newState
 }
@@ -34,7 +32,6 @@ function triple(state, batter, action) {
     newState.third = batter
     newState.second = false
     newState.first = false
-    newState.batter = false
 
     return newState
 }
@@ -45,7 +42,6 @@ function homerun(state, batter, action) {
     newState.third = false
     newState.second = false
     newState.first = false
-    newState.batter = false
 
     return newState
 }
@@ -56,7 +52,6 @@ function advanceAvailableBases(state, batter, action) {
     newState.third = (state.first && state.second) || state.third
     newState.second = state.first || state.second
     newState.first = batter
-    newState.batter = false
 
     return newState
 }

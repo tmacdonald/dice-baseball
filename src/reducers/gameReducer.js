@@ -1,6 +1,14 @@
 import actions from './actions'
 import inningReducer, { defaultInning } from './inningReducer'
 
+function isBottomHalf(state) {
+    return state.innings.length > 0 && state.innings[state.innings.length - 1].top
+}
+
+function isTopHalf(state) {
+    return state.innings.length === 0 || !state.innings[state.innings.length - 1].top
+}
+
 function out(state, action) {
     const inningState = inningReducer(state.currentInning, action)
     if (inningState.outs === 3) {
@@ -9,17 +17,17 @@ function out(state, action) {
             hits: inningState.hits
         }
 
-        if (state.innings.length > 0 && state.innings[state.innings.length - 1].top) {
-            const fullInningsSummary = Object.assign({}, state.innings[state.innings.length - 1], { bottom: inningSummary })
-            return {
-                currentInning: defaultInning,
-                innings: state.innings.slice(0, state.innings.length - 1).concat(fullInningsSummary)    
-            }
-        } else {
+        if (isTopHalf(state)) {
             const innings = state.innings.slice().concat({ top: inningSummary })
             return {
-                currentInning: defaultInning,
+                currentInning: defaultInning(state.homeRoster),
                 innings
+            }
+        } else {
+            const fullInningsSummary = Object.assign({}, state.innings[state.innings.length - 1], { bottom: inningSummary })
+            return {
+                currentInning: defaultInning(state.visitingRoster),
+                innings: state.innings.slice(0, state.innings.length - 1).concat(fullInningsSummary)    
             }
         }
         
@@ -37,7 +45,10 @@ function reducer(state, action) {
         case actions.OUT:
             return out(state, action)
         default:
-            return state
+            return {
+                currentInning: inningReducer(state.currentInning, action),
+                innings: state.innings
+            }
     }
     
 }

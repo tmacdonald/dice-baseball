@@ -1,5 +1,4 @@
 const actions = {
-    BATTER_UP: 'BATTER_UP',
     SINGLE: 'SINGLE',
     DOUBLE: 'DOUBLE',
     TRIPLE: 'TRIPLE',
