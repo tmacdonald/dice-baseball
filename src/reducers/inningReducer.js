@@ -4,11 +4,10 @@ import runsReducer from './runsReducer'
 import baseReducer from './baseReducer'
 import hitsReducer from './hitsReducer'
 
-const defaultInning = function(roster) {
+const defaultInning = function(batter) {
     return {
         bases: { first: false, second: false, third: false },
-        batter: roster[0],
-        roster,
+        batter,
         runs: 0,
         strikes: 0,
         balls: 0,
@@ -21,7 +20,7 @@ function strike(state, action) {
     let newState = reducer(state, action)
 
     if (newState.strikes === 3) {
-        newState = populateBatter(reducer(state, { type: actions.OUT }))
+        newState = reducer(state, { type: actions.OUT })
     }
     return newState
 }
@@ -30,7 +29,7 @@ function ball(state, action) {
     let newState = reducer(state, action)
 
     if (newState.balls === 4) {
-        newState = populateBatter(reducer(state, { type: actions.WALK }))
+        newState = reducer(state, { type: actions.WALK })
     }
     return newState
 }
@@ -53,16 +52,6 @@ function reducer(state, action) {
     return newState
 }
 
-function populateBatter(state) {
-    const batter = state.roster[0]
-    const roster = state.roster.slice(-(state.roster.length - 1)).concat(batter)
-
-    return Object.assign({}, state, {
-        batter: roster[0],
-        roster
-    })
-}
-
 function rootReducer(state, action) {
     switch(action.type) {
         case actions.STRIKE:
@@ -70,7 +59,7 @@ function rootReducer(state, action) {
         case actions.BALL:
             return ball(state, action)
         default:
-            return populateBatter(reducer(state, action))
+            return reducer(state, action)
     }
 }
 

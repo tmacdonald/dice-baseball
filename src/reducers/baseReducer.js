@@ -72,7 +72,7 @@ function reducer (state, batter, action) {
         case actions.ADVANCE_AVAILABLE_BASES:
             return advanceAvailableBases(state, batter, action)
         default:
-            return defaultState
+            return state
     }
 }
 

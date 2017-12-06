@@ -1,7 +1,7 @@
 import actions from './actions'
 import reducer, { defaultInning } from './inningReducer'
 
-const roster = ['A', 'B', 'C', 'D']
+const batter = 'A'
 
 /**
  * state shape: {
@@ -20,7 +20,7 @@ const roster = ['A', 'B', 'C', 'D']
  */
 
 test('three strikes, you\'re out!', () => {
-    const state = Object.assign({}, defaultInning(roster), {
+    const state = Object.assign({}, defaultInning(batter), {
         strikes: 2
     })
 
@@ -31,7 +31,7 @@ test('three strikes, you\'re out!', () => {
 })
 
 test('ball four with bases loaded scores a run', () => {
-    const state = Object.assign({}, defaultInning(roster), {
+    const state = Object.assign({}, defaultInning(batter), {
         bases: { first: 'B', second: 'C', third: 'D' },
         balls: 3
     })
@@ -42,7 +42,7 @@ test('ball four with bases loaded scores a run', () => {
 })
 
 test('grand slam scores four and clears the bases', () => {
-    const state = Object.assign({}, defaultInning(roster), {
+    const state = Object.assign({}, defaultInning(batter), {
         bases: { first: 'B', second: 'C', third: 'D' }
     })
 

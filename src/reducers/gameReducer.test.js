@@ -2,52 +2,23 @@ import reducer from './gameReducer'
 import { defaultInning } from './inningReducer'
 import actions from './actions'
 
-const homeRoster = ['A', 'B', 'C', 'D']
-const visitingRoster = ['E', 'F', 'G', 'H']
-
-function log(message) {
-    console.log(message)
-}
-
-test('game', () => {
-    const state = {
-        homeRoster,
-        visitingRoster,
-        currentInning: defaultInning(visitingRoster),
-        innings: []
-    }
-
-    let newState = reducer(state, { type: actions.STRIKE })
-    log(newState)
-
-    newState = reducer(newState, { type: actions.STRIKE })
-    log(newState)
-    
-    newState = reducer(newState, { type: actions.STRIKE })
-    log(newState)
-
-    newState = reducer(newState, { type: actions.SINGLE })
-    log(newState)
-
-    newState = reducer(newState, { type: actions.DOUBLE })
-    log(newState)
-
-    newState = reducer(newState, { type: actions.TRIPLE })
-    log(newState)
-
-    newState = reducer(newState, { type: actions.HOMERUN })
-    log(newState)
-})
+const homeIndex = 0
+const homeRoster = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+const visitingIndex = 0
+const visitingRoster = ['Z', 'Y', 'X', 'W', 'V', 'U', 'T', 'S', 'R']
 
 test('top half of inning ending resets the state', () => {
-    const inningState = Object.assign({}, defaultInning(visitingRoster), {
+    
+    const inningState = Object.assign({}, defaultInning(visitingRoster[visitingIndex]), {
         runs: 1,
         outs: 2,
         hits: 2
     })
 
     const state = {
+        homeIndex,
         homeRoster,
+        visitingIndex,
         visitingRoster,
         currentInning: inningState,
         innings: []
@@ -56,7 +27,11 @@ test('top half of inning ending resets the state', () => {
     const newState = reducer(state, { type: actions.OUT })
 
     expect(newState).toEqual({
-        currentInning: defaultInning(state.homeRoster),
+        visitingIndex: visitingIndex + 1,
+        homeIndex,
+        homeRoster,
+        visitingRoster,
+        currentInning: defaultInning(state.homeRoster[0]),
         innings: [{
             top: {
                 runs: 1,
@@ -67,14 +42,16 @@ test('top half of inning ending resets the state', () => {
 })
 
 test('bottom half of inning ending resets the state', () => {
-    const inningState = Object.assign({}, defaultInning(homeRoster), {
+    const inningState = Object.assign({}, defaultInning(homeRoster[0]), {
         runs: 4,
         outs: 2,
         hits: 5
     })
 
     const state = {
+        homeIndex,
         homeRoster,
+        visitingIndex,
         visitingRoster,
         currentInning: inningState,
         innings: [{
@@ -88,7 +65,11 @@ test('bottom half of inning ending resets the state', () => {
     const newState = reducer(state, { type: actions.OUT })
 
     expect(newState).toEqual({
-        currentInning: defaultInning(state.visitingRoster),
+        homeIndex: homeIndex + 1,
+        homeRoster,
+        visitingIndex,
+        visitingRoster,
+        currentInning: defaultInning(state.visitingRoster[0]),
         innings: [{
             top: {
                 runs: 1,
@@ -112,4 +93,28 @@ test('end state - end of the bottom of the ninth', () => {
 
 test('end state - extra innings', () => {
 
+})
+
+test('game', () => {
+    function log(message) {
+        console.log(message)
+    }    
+
+    const state = {
+        homeIndex,
+        homeRoster,
+        visitingIndex,
+        visitingRoster,
+        currentInning: defaultInning(visitingRoster[visitingIndex]),
+        innings: []
+    }
+
+    let newState = state
+
+    for (var i = 0; i < 30; i = i + 1) {
+        const action = Math.random() < 0.7 ? actions.SINGLE : actions.OUT
+        console.log(action)
+        newState = reducer(newState, { type: action })
+        log(newState)
+    }
 })
