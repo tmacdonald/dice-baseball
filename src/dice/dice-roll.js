@@ -61,5 +61,14 @@ function generateAllSums(numberOfDice, numberOfSides) {
     return generateAllDiceRolls(numberOfDice, numberOfSides).map(x => x.reduce((y, z) => y + z, 0))
 }
 
-const list = generateAllSums(2, 6);
-console.log(list)
+// export {
+//     generateDiceRolls,
+//     generateAllDiceRolls,
+//     generateAllSums
+// }
+
+module.exports = {
+    generateAllDiceRolls,
+    generateDiceRolls,
+    generateAllSums
+}
