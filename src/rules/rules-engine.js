@@ -1,5 +1,5 @@
-//import { generateDiceRolls } from './dice/dice-roll'
-const generateDiceRolls = require('../dice/dice-roll').generateDiceRolls
+import { generateDiceRolls } from './dice/dice-roll'
+//const generateDiceRolls = require('../dice/dice-roll').generateDiceRolls
 
 Array.prototype.equals = function(array) {
     if (!array) {
@@ -81,3 +81,4 @@ function createRulesEngine(numberOfSides, numberOfDice, rules) {
 //     "5,6": "TRIPLE",
 //     "6,6": "HOMERUN"
 // })
+
