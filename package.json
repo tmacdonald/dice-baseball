@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "babel-node src/playground/index.js",
     "test": "jest",
     "test-watch": "jest --watchAll"
   },
